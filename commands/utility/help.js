@@ -95,7 +95,7 @@ module.exports = {
           }
         );
 
-      return interaction.reply({ embeds: [embed], ephemeral: true });
+      return interaction.reply({ embeds: [embed] });
     } else {
       // General help: list all commands
       const embed = new EmbedBuilder()
