@@ -47,6 +47,10 @@ module.exports = {
   })(),
   async execute(interaction) {
     const commandName = interaction.options.getString('command');
+    const guildId = interaction.guild.id;
+    const adminGuilds = process.env.ADMIN_GUILD_IDS.split(',');
+    const isAdminGuild = adminGuilds.includes(guildId);
+
     const commands = [];
 
     // Dynamically load commands from the `commands` directory
@@ -54,6 +58,8 @@ module.exports = {
     const commandFolders = fs.readdirSync(foldersPath);
 
     for (const folder of commandFolders) {
+      if (folder === 'admin' && !isAdminGuild) continue; // Exclude admin commands if not an admin guild
+
       const commandsPath = path.join(foldersPath, folder);
       const commandFiles = fs
         .readdirSync(commandsPath)
@@ -75,6 +81,7 @@ module.exports = {
       if (!command) {
         return interaction.reply({
           content: `No command found with name \`${commandName}\`.`,
+          ephemeral: true,
         });
       }
 
