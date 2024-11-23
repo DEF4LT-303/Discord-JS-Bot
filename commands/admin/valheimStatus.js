@@ -4,7 +4,6 @@ const { google } = require('googleapis');
 
 // Load variables from environment
 const FOLDER_ID = process.env.GOOGLE_DRIVE_FOLDER_ID;
-const CREDENTIALS_PATH = process.env.GOOGLE_CREDENTIALS_PATH;
 
 // Google Drive setup
 const credentials = JSON.parse(process.env.GOOGLE_CREDENTIALS);
@@ -12,6 +11,7 @@ const auth = new google.auth.GoogleAuth({
   credentials,
   scopes: ['https://www.googleapis.com/auth/drive.readonly'],
 });
+const drive = google.drive({ version: 'v3', auth });
 
 // Variables to store state
 let monitoringChannels = {};
