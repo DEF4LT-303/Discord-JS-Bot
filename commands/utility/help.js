@@ -73,6 +73,14 @@ module.exports = {
       }
     }
 
+    const embed = new EmbedBuilder()
+      .setColor('Blue')
+      .setAuthor({
+        name: interaction.client.user.username,
+        iconURL: interaction.client.user.displayAvatarURL(),
+      })
+      .setThumbnail(interaction.client.user.displayAvatarURL());
+
     if (commandName) {
       // Detailed help for a specific command
       const command = commands.find(
@@ -85,7 +93,7 @@ module.exports = {
         });
       }
 
-      const embed = new EmbedBuilder()
+      embed
         .setTitle(`Help: /${command.data.name}`)
         .setDescription(command.data.description || 'No description provided.')
         .setColor('Blue')
@@ -105,10 +113,9 @@ module.exports = {
       return interaction.reply({ embeds: [embed] });
     } else {
       // General help: list all commands
-      const embed = new EmbedBuilder()
+      embed
         .setTitle('Available Commands')
-        .setDescription('Here is a list of all the commands available:')
-        .setColor('Blue');
+        .setDescription('Here is a list of all the commands available:');
 
       // Group commands by category
       const categories = {};
