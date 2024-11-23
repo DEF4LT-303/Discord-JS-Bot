@@ -1,5 +1,6 @@
 // Require the necessary discord.js classes
 require('dotenv').config();
+const express = require('express');
 const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
@@ -46,6 +47,16 @@ for (const file of eventFiles) {
     client.on(event.name, (...args) => event.execute(...args));
   }
 }
+
+// Keep alive
+const app = express();
+app.get('/', (req, res) => {
+  res.send('Bot is running and active!');
+});
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Web server is running on port ${PORT}`);
+});
 
 // Log in to Discord with your client's token
 client.login(process.env.BOT_TOKEN);
